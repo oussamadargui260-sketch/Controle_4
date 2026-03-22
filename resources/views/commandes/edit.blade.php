@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layout')
 
 @section('content')
 <div class="card shadow-sm mx-auto" style="max-width: 700px;">
@@ -17,6 +17,11 @@
                         </option>
                     @endforeach
                 </select>
+            </div>
+            <div class="mb-3">
+                <label>Date de la commande</label>
+                <input type="datetime-local" name="date_commande" class="form-control"
+                    value="{{ \Carbon\Carbon::parse($commande->date_commande)->format('Y-m-d\TH:i') }}">
             </div>
 
             <div class="mb-3">

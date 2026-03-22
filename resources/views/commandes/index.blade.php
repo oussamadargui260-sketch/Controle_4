@@ -3,7 +3,9 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1>Liste des Commandes</h1>
-    <a href="{{ route('commandes.create') }}" class="btn btn-primary">Nouvelle Commande</a>
+    <a href="{{ route('commandes.create') }}" class="btn btn-primary">
+        Nouvelle Commande
+    </a>
 </div>
 
 <table class="table table-striped border">
@@ -13,25 +15,52 @@
             <th>Client</th>
             <th>Date</th>
             <th>Produits (Détails)</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
     </thead>
+
     <tbody>
         @foreach($commandes as $commande)
         <tr>
             <td>{{ $commande->id }}</td>
-            <td>{{ $commande->client->nom }}</td>
+
+            <td>{{ $commande->client->nom ?? '---' }}</td>
+
+
             <td>{{ \Carbon\Carbon::parse($commande->date_commande)->format('d/m/Y H:i') }}</td>
+
+
             <td>
                 <ul class="list-unstyled mb-0 small">
                     @foreach($commande->details as $detail)
-                        <li>• {{ $detail->produit->nom }} (x{{ $detail->quantite }})</li>
+                        <li>
+                            • {{ $detail->produit->nom ?? 'Produit supprimé' }}
+                            (x{{ $detail->quantite }})
+                        </li>
                     @endforeach
                 </ul>
             </td>
-            <td>
-                <a href="{{ route('commandes.edit', $commande) }}" class="btn btn-sm btn-warning">Modifier</a>
-                <a href="{{ route('commandes.confirm', $commande) }}" class="btn btn-sm btn-danger">Supprimer</a>
+            <td>{{ $commande->statut }}</td>
+
+            <td class="d-flex gap-1">
+                <!-- Edit -->
+                <a href="{{ route('commandes.edit', $commande) }}" class="btn btn-sm btn-warning">
+                    Modifier
+                </a>
+
+                <!-- Delete -->
+                <form action="{{ route('commandes.destroy', $commande) }}" method="POST" style="display:inline;"
+                      onsubmit="return confirm('Supprimer cette commande ?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+                </form>
+
+                <!-- Voir Détails -->
+                <a href="{{ route('commandes.show', $commande) }}" class="btn btn-sm btn-info">
+                    Détails
+                </a>
             </td>
         </tr>
         @endforeach

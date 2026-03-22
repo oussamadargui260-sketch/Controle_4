@@ -9,7 +9,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('commandes.index') }}">Gestion TP</a>
+            <a class="navbar-brand" href="{{ route('commandes.index') }}">Gestion des Commandes</a>
             <div class="navbar-nav">
                 <a class="nav-link" href="{{ route('commandes.index') }}">Commandes</a>
                 <a class="nav-link" href="{{ route('commandes.stats') }}">Statistiques</a>
